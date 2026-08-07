@@ -1,0 +1,34 @@
+[Unit]
+Description=Bidirectional Wayland ↔ X11 text clipboard sync
+Documentation=https://github.com/LOUST-PRO/clipboard-wayland-x11-sync
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+# Run as the user who owns the graphical session, NOT root.
+# systemd user services under graphical-session.target already
+# have the right Wayland/X11 socket env vars.
+ExecStart=%h/.local/bin/clipboard-wayland-x11-sync.sh
+Restart=on-failure
+RestartSec=5
+# Cap memory — this is a polling loop, leaks must be contained.
+MemoryMax=16M
+MemoryHigh=12M
+# Don't pollute /tmp; we use $XDG_RUNTIME_DIR (per-user runtime dir)
+RuntimeDirectory=clipboard-wayland-x11-sync
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+PrivateTmp=true
+PrivateDevices=true
+PrivateNetwork=false
+RestrictNamespaces=true
+RestrictRealtime=true
+LockPersonality=true
+RestrictSUIDSGID=true
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=graphical-session.target

@@ -1,0 +1,19 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Local overrides
+*.local
+
+# Test artifacts
+/tmp/clipboard-sync-test-*
+$HOME/.local/state/clipboard-wayland-x11-sync/
+
+# State files (created at runtime)
+*.pid
+*.prev
